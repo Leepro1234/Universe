@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useState, useEffect } from 'react'
 import TextField from '@mui/material/TextField'
 import {
   Button,
@@ -13,7 +13,8 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { LockOpen } from '@mui/icons-material'
-
+import { fnLogin } from '../store/module/UserStateSlice'
+import { useDispatch, useSelector } from 'react-redux'
 const MyButton = styled(Button)({
   marginTop: 10,
   marginBottom: 8,
@@ -32,6 +33,15 @@ const MyTextField = styled(TextField)({
 })
 
 export default function Login() {
+  const userState = useSelector((state) => state.userState.data)
+  console.log(userState)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fnLogin())
+  }, [dispatch])
+  const onClick = () => {
+    console.log('test')
+  }
   return (
     <Container maxWidth="xs">
       <MyBox>
@@ -62,7 +72,7 @@ export default function Login() {
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"
         />
-        <MyButton type="submit" fullWidth variant="contained">
+        <MyButton type="submit" fullWidth variant="contained" onClick={onClick}>
           Sigh In
         </MyButton>
         <Grid container>
