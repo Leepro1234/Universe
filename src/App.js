@@ -1,17 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Login from './components/Login'
 import RequireAuth from './components/RequireAuth'
-import Second from './routes/Second'
+import Index from './routes/Index'
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route
-          path="/Second"
+          path="/Index"
           element={
             <RequireAuth>
-              <Second />
+              <Index />
             </RequireAuth>
           }
         ></Route>

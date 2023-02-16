@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import TextField from '@mui/material/TextField'
 import {
   Button,
@@ -11,10 +11,10 @@ import {
   Container,
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { LockOpen, SetMeal } from '@mui/icons-material'
+import { LockOpen } from '@mui/icons-material'
 import { fnLogin } from '../store/module/UserStateSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 //#region
 
@@ -38,11 +38,12 @@ const MyTextField = styled(TextField)({
 //#endregion
 const headers = { 'Content-Type': 'application/json' }
 export default function Login() {
-  //const userState = useSelector((state) => state.userState.data)
+  const userState = useSelector((state) => state.userState.data) //dispatch때마다 화면 refresh
   const [inputs, setInputs] = useState({ email: '', password: '' })
   const [errMsg, setErrMsg] = useState('')
   const dispatch = useDispatch()
-  useEffect(() => {}, [dispatch])
+  const navigate = useNavigate() //Redict를 위해서 사용
+  //useEffect(() => {}, [dispatch])
 
   //#region  Methods
 
@@ -72,7 +73,8 @@ export default function Login() {
         setErrMsg(res.resultMessage)
       } else {
         setErrMsg('')
-        dispatch(fnLogin(res.token))
+        await dispatch(fnLogin(res.token))
+        navigate('/Index')
       }
     } catch (err) {
       console.error(err)

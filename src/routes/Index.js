@@ -1,7 +1,7 @@
 export default function Second() {
   return (
     <div>
-      <h1>Hello Detail</h1>
+      <h1>This is MainPage</h1>
     </div>
   )
 }
