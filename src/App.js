@@ -9,6 +9,14 @@ function App() {
     <Router>
       <Routes>
         <Route
+          path="/"
+          element={
+            <RequireAuth>
+              <Index />
+            </RequireAuth>
+          }
+        ></Route>
+        <Route
           path="/Index"
           element={
             <RequireAuth>

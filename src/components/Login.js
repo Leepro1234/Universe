@@ -37,7 +37,7 @@ const MyBox = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  height: '100vh',
+  height: '70vh',
   background: '#F8F9FA',
 })
 const MyTextField = styled(TextField)({
@@ -182,7 +182,7 @@ export default function Login() {
               <Grid item>
                 {' '}
                 <Button component={Link} to="/SignUp">
-                  Sign Up
+                  회원가입
                 </Button>{' '}
               </Grid>
             </Grid>

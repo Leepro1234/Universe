@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { Button, TextField, Typography, Container } from '@mui/material'
+import { Button, TextField, Typography, Container, Alert } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { AccountCircle, LockOutlined } from '@mui/icons-material'
+import { useNavigate } from 'react-router-dom'
 
 const theme = createTheme({
   palette: {
@@ -10,16 +11,47 @@ const theme = createTheme({
     },
   },
 })
-
+const headers = { 'Content-Type': 'application/json' }
 const SignUp = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
-
-  const handleClick = () => {
-    console.log('Email:', email)
-    console.log('Password:', password)
-    console.log('Name:', name)
+  const [error, setError] = useState('')
+  const navigate = useNavigate() //Redict를 위해서 사용
+  const handleClick = async () => {
+    try {
+      setError('')
+      let input = {}
+      input['email'] = email
+      input['password'] = password
+      input['name'] = name
+      const res = await fetch(
+        `${process.env.REACT_APP_URL}/api/users/createUser`,
+        {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(input),
+        }
+      )
+        .then((response) => {
+          if (response.ok) {
+            return response.json()
+          }
+          return Promise.reject(response)
+        })
+        .catch((response) => {
+          return response.json().then((json) => {
+            setError(json.resultMessage)
+            return json
+          })
+        })
+      if (res.status == true) {
+        navigate('/Index')
+      }
+    } catch (err) {
+      console.error(err)
+      return
+    }
   }
 
   return (
@@ -30,7 +62,7 @@ const SignUp = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            height: '100vh',
+            height: '70vh',
             background: '#F8F9FA',
           }}
         >
@@ -62,7 +94,7 @@ const SignUp = () => {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center',
+              //alignItems: 'center',
               justifyContent: 'center',
               width: '80%',
               height: '50%',
@@ -118,7 +150,6 @@ const SignUp = () => {
                 ),
               }}
             />
-
             <Button
               variant="contained"
               fullWidth
@@ -131,6 +162,11 @@ const SignUp = () => {
             >
               회원가입
             </Button>
+            {error && (
+              <Alert severity="error" sx={{ justifyContent: 'flex-end' }}>
+                {error}
+              </Alert>
+            )}
           </div>
         </div>
       </Container>
