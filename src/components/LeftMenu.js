@@ -36,7 +36,7 @@ const LeftMenu = ({ open, onClose }) => {
   )
 
   return (
-    <StyledDrawer anchor="left" open={open} onClose={onClose}>
+    <StyledDrawer anchor="left" open={open} onClose={() => {}}>
       {list()}
     </StyledDrawer>
   )
